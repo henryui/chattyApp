@@ -59,6 +59,11 @@ body {
   padding: 0 10px;
 }
 
+.message-image {
+  max-width: 60%;
+  display: block;
+}
+
 .message-content {
   flex: 8;
 }
@@ -77,6 +82,13 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+
+  div {
+    float: right;
+    line-height: 60px;
+    font-size: 1.2em;
+    margin-right: 1em;
+  }
 }
 
 .navbar-brand {

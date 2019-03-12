@@ -1,38 +1,31 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-const MessageList = function ({message}) {
-  return (
-    <div className="message">
-      <span className="message-username">{message.username}</span>
-      <span className="message-content">{message.content}</span>
-    </div>
-  );
-}
-
-const NotiList = function ({noti}) {
-  return (
-    <div className="message system">
-      {noti.content}
-    </div>
-  );
-}
-
-class Messages extends Component {
+class Message extends Component {
   render () {
-    const list = this.props.messages.map((m) => {
-      if (m.type === 'incomingMessage') {
-        return (<MessageList message={m} />);
-      } else {
-        return (<NotiList noti={m} />);
-      }
-    });
+    let text = this.props.message.content;
+    const imageStart = text.search('http');
+    const imageEnd = Math.min.apply(null, [text.search('jpg'), text.search('png'), text.search('gif')].filter(x => x !== -1));
+    if (imageStart !== -1 && imageEnd !== -1 && imageStart < imageEnd) {
+      const imageString = text.slice(imageStart, imageEnd + 3);
+      text = (<div>{text.slice(0, imageStart)} <img className="message-image" src={imageString} alt={imageString} /> {text.slice(imageEnd + 3)}</div>);
+    }
 
-    return (
-      <main className="messages">
-        {list}
-      </main>
-    );
+    const messageObj = (this.props.message.type === 'incomingMessage') ?
+    (<div className="message">
+      <span className="message-username" style={{color: this.props.message.color}}>{this.props.message.username}</span>
+      <span className="message-content">{text}</span>
+    </div>) :
+    (<div className="message system">
+      {this.props.message.content}
+    </div>);
+
+    return messageObj;
   }
 }
 
-export default Messages;
+Message.propTypes = {
+  message: PropTypes.object
+};
+
+export default Message;
