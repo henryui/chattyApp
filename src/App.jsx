@@ -44,13 +44,10 @@ class App extends Component {
 
   componentDidMount() {
     this.ws.onopen = () => {
-      // on connecting, do nothing but log it to the console
       this.setState({chatOn: true});
-      // console.log('connected');
     };
 
     this.ws.onmessage = evt => {
-      // console.log('received');
       // on receiving a message, add it to the list of messages
       const message = JSON.parse(evt.data)
 
@@ -60,27 +57,11 @@ class App extends Component {
         const messages = this.state.messages.concat([message]);
         this.setState({messages});
       }
-      // this.addMessage(message)
-      // console.log(message);
     };
 
     this.ws.onclose = () => {
       this.setState({chatOn: false});
-      // console.log('disconnected');
-      // automatically try to reconnect on connection loss
-      // this.setState({
-      //   ws: new WebSocket(URL),
-      // })
     };
-
-    // setTimeout(() => {
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = [{type: 'incomingMessage', username: 'Michelle', content: 'Hello there!'}];
-    //   const messages = this.state.messages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages})
-    // }, 3000);
   }
 
   render() {
