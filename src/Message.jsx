@@ -5,7 +5,8 @@ class Message extends Component {
   render () {
     let text = this.props.message.content;
     const imageStart = text.search('http');
-    const imageEnd = Math.min.apply(null, [text.search('jpg'), text.search('png'), text.search('gif')].filter(x => x !== -1));
+    const EndArray = [text.search('jpg'), text.search('png'), text.search('gif')].filter(x => x !== -1);
+    const imageEnd = (EndArray.length) ? Math.min.apply(null, EndArray) : -1;
     if (imageStart !== -1 && imageEnd !== -1 && imageStart < imageEnd) {
       const imageString = text.slice(imageStart, imageEnd + 3);
       text = (<div>{text.slice(0, imageStart)} <img className="message-image" src={imageString} alt={imageString} /> {text.slice(imageEnd + 3)}</div>);
